@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block title %}{{ post.title }}{% endblock %}
+
+{% block content %}
+    <h1>{{ post.title }}</h1>
+    <p>{{ post.body }}</p>
+    <p>Posted by {{ post.user.username }} on {{ post.timestamp.strftime('%Y-%m-%d %H:%M') }}</p>
+
+    <hr>
+    <h2>Comments</h2>
+    {% if current_user.is_authenticated %}
+        <form method="post">
+            <div>
+                <label for="comment">Add a comment</label>
+                <textarea name="comment" id="comment" required></textarea>
+            </div>
+            <div>
+                <button type="submit">Submit Comment</button>
+            </div>
+        </form>
+    {% else %}
+        <p><a href="{{ url_for('main.login') }}">Log in</a> to add a comment.</p>
+    {% endif %}
+
+    <div>
+        {% for comment in comments %}
+            <div>
+                <p>{{ comment.body }}</p>
+                <p>Comment by {{ comment.user.username }} on {{ comment.timestamp.strftime('%Y-%m-%d %H:%M') }}</p>
+            </div>
+            <hr>
+        {% endfor %}
+    </div>
+
+{% endblock %}

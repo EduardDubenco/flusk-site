@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}Search Results{% endblock %}
+
+{% block content %}
+    <h1>Search Results for "{{ query }}"</h1>
+    {% if results.items %}
+        {% for post in results.items %}
+            <div>
+                <h2><a href="{{ url_for('main.post', post_id=post.id) }}">{{ post.title }}</a></h2>
+                <p>{{ post.body[:200] }}...</p>
+            </div>
+        {% endfor %}
+        <div>
+            {% if results.has_prev %}
+                <a href="{{ url_for('main.search', query=query, page=results.prev_num) }}">Previous</a>
+            {% endif %}
+            {% if results.has_next %}
+                <a href="{{ url_for('main.search', query=query, page=results.next_num) }}">Next</a>
+            {% endif %}
+        </div>
+    {% else %}
+        <p>No results found for "{{ query }}".</p>
+    {% endif %}
+{% endblock %}

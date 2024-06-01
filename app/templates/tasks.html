@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block title %}Tasks{% endblock %}
+
+{% block content %}
+    <h1>Your Tasks</h1>
+    {% for task in tasks %}
+        <div>
+            <h2>{{ task.title }}</h2>
+            <p>{{ task.description }}</p>
+            <p>Completed: {{ task.completed }}</p>
+            <form method="post" action="{{ url_for('main.toggle_complete_task', task_id=task.id) }}">
+                <button type="submit">{{ 'Mark as Incomplete' if task.completed else 'Mark as Complete' }}</button>
+            </form>
+            <form method="post" action="{{ url_for('main.delete_task', task_id=task.id) }}">
+                <button type="submit">Delete</button>
+            </form>
+        </div>
+    {% endfor %}
+{% endblock %}

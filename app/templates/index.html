@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+    <h1>Posts</h1>
+    {% for post in posts.items %}
+        <div>
+            <h2><a href="{{ url_for('main.post', post_id=post.id) }}">{{ post.title }}</a></h2>
+            <p>{{ post.body[:200] }}...</p>
+        </div>
+    {% endfor %}
+
+    <div>
+        {% if posts.has_prev %}
+            <a href="{{ url_for('main.index', page=posts.prev_num) }}">Pagina Anterioară</a>
+        {% endif %}
+        {% if posts.has_next %}
+            <a href="{{ url_for('main.index', page=posts.next_num) }}">Pagina Următoare</a>
+        {% endif %}
+    </div>
+{% endblock %}
